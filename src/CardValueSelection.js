@@ -1,7 +1,7 @@
-const CardValueSection = () => {
+const CardValueSelection = ({handleChange, selected}) => {
   return(
     <div>
-      <select value="number">
+      <select value={selected} onChange={(e) => handleChange(e.target.value)}>
         <option value="1">Ace</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -20,4 +20,4 @@ const CardValueSection = () => {
   )
 }
 
-export default CardValueSection;
+export default CardValueSelection;
