@@ -1,6 +1,5 @@
 import './App.css';
 import CardForm from './CardForm';
-import SuitOptions from './SuitOptions';
 
 function App() {
   return (

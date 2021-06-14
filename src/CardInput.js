@@ -1,11 +1,17 @@
 import SuitOptions from './SuitOptions'
 import CardValueSelection from './CardValueSelection'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
-const CardInput = ({cardNumber}) => {
+const CardInput = ({cardNumber, updatePairs}) => {
 
-  let [cardValue, setCardValue] = useState(null)
+  let [cardValue, setCardValue] = useState(0)
   let [cardSuit, setCardSuit] = useState(null)
+
+  useEffect(() => {
+    if(cardValue && cardSuit){
+      updatePairs(cardNumber,`${cardValue + cardSuit}`)
+    }
+  })
 
   return(
     <div>
