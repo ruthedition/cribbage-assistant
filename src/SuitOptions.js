@@ -1,22 +1,22 @@
-const SuitOptions = () =>{
+const SuitOptions = ({cardNumber}) =>{
 
   return(
     <div>
         <div className="radio">
           <label className="club">
-            <input type="radio" value="C"/>
+            <input type="radio" name={`suit-${cardNumber}`} value="C"/>
             ♣️
           </label>
           <label className="diamond">
-            <input type="radio" value="D"/>
+            <input type="radio" name={`suit-${cardNumber}`} value="D"/>
             ♦
           </label>
           <label className="heart">
-            <input type="radio" value="H"/>
+            <input type="radio" name={`suit-${cardNumber}`} value="H"/>
             ♥
           </label>
           <label className="spade">
-            <input type="radio" value="S"/>
+            <input type="radio" name={`suit-${cardNumber}`} value="S"/>
             ♠
           </label>
         </div>
