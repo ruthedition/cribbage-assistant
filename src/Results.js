@@ -5,6 +5,10 @@ const Results = ({cardPairs}) => {
   let [bestPairs, setBestPairs] = useState()
   let [points, setPoints] = useState()
 
+  const findSuit = (card) => {
+    return card.split("").pop()
+  }
+   
   const findNumber = (card) => {
     if(card.length == 3){
         return parseInt(card.slice(0,2))
@@ -71,8 +75,17 @@ const Results = ({cardPairs}) => {
   }
 
   const calculatePoints = () => {
-    let sorted = cardPairs.sort((a,b) => { return findNumber(a) - findNumber(b)} )
+    let sorted = cardPairs.sort((a,b) => findNumber(a) - findNumber(b))
+    findFlush(sorted)
     parseCombos(sorted)
+  }
+
+  const findFlush = (arr) => {
+    let suits = {H:0, D:0, S:0, C:0}
+    arr.forEach(a => suits[findSuit(a)]++)
+    let suit = Object.keys(suits).find(suit => suits[suit] == 4)
+    
+    return arr.filter(a => findSuit(a) === suit)
   }
 
   useEffect(calculatePoints, [cardPairs])
