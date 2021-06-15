@@ -1,19 +1,6 @@
-import { useState } from 'react'
 import CardInput from './CardInput'
 
-const CardForm = () => {
-
-  let [cardPairs, setCardPairs] = useState(new Array(6))
-
-  const updatePairs = (cardNumber, cardPair) => {
-    let newCardPairs = cardPairs
-    newCardPairs[cardNumber-1] = cardPair
-    setCardPairs(newCardPairs)
-  }
-
-  const handleSubmit= () => {
-    console.log(cardPairs)
-  }
+const CardForm = ({updatePairs}) => {
 
   return(
     <div style={{padding:"5rem"}}>
@@ -23,7 +10,6 @@ const CardForm = () => {
         < CardInput cardNumber="4" updatePairs={updatePairs} />
         < CardInput cardNumber="5" updatePairs={updatePairs} />
         < CardInput cardNumber="6" updatePairs={updatePairs} />
-        <button onClick={handleSubmit}>Submit</button>
     </div>
   )
 }

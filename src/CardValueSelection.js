@@ -2,7 +2,7 @@ const CardValueSelection = ({handleChange, selected}) => {
   return(
     <div>
       <select value={selected} onChange={(e) => handleChange(e.target.value)}>
-        <option value="0" disabled>Select Card Number</option>
+        <option value="0" disabled>Select Card Value</option>
         <option value="1">Ace</option>
         <option value="2">2</option>
         <option value="3">3</option>
