@@ -2,15 +2,14 @@ import { useEffect, useState } from "react"
 
 const Results = ({cardPairs}) => {
 
-  let [bestPairs, setBestPairs] = useState()
-  let [points, setPoints] = useState()
+  let [bestCards, setBestCards] = useState()
 
   const findSuit = (card) => {
     return card.split("").pop()
   }
    
   const findNumber = (card) => {
-    if(card.length == 3){
+    if(card.length === 3){
         return parseInt(card.slice(0,2))
       }else{
         return parseInt(card.slice(0,1))
@@ -18,10 +17,10 @@ const Results = ({cardPairs}) => {
   }
   
   const parseCombos = (arr) =>{
-    let combos = {
-      pairs: findPairs(arr),
-      runs: findRuns(arr),
-      combo15: addCards(arr),
+    return {
+      pairs: findPairs(arr).flat(),
+      runs: findRuns(arr).flat(),
+      combo15: addCards(arr).flat(),
       flush: findFlush(arr)
     }
   }
@@ -30,7 +29,7 @@ const Results = ({cardPairs}) => {
     let pairs = [[]]
     arr.forEach((a) => {
       let currentPair = pairs[pairs.length -1]
-      if(currentPair.length === 0 || findNumber(currentPair[0]) == findNumber(a)){
+      if(currentPair.length === 0 || findNumber(currentPair[0]) === findNumber(a)){
         currentPair.push(a)
       }else{
         pairs.push([a])
@@ -54,7 +53,7 @@ const Results = ({cardPairs}) => {
     let uniqueVal = 0
     filtered.forEach(a => {
       a.forEach(n => {
-        if(currentNum != findNumber(n)){
+        if(currentNum !== findNumber(n)){
           currentNum = findNumber(n)
           uniqueVal++
         }
@@ -99,23 +98,50 @@ const Results = ({cardPairs}) => {
   const findFlush = (arr) => {
     let suits = {H:0, D:0, S:0, C:0}
     arr.forEach(a => suits[findSuit(a)]++)
-    let suit = Object.keys(suits).find(suit => suits[suit] == 4)
+    let suit = Object.keys(suits).find(suit => suits[suit] === 4)
     
     return arr.filter(a => findSuit(a) === suit)
   }
+  
+  const comboChecker = (combos => {
+    let bestOptions = {}
 
-  const calculatePoints = () => {
+    Object.values(combos).forEach(combo => {
+      combo.forEach(card => {
+        if(!bestOptions[card]){
+          bestOptions[card] = 1
+        }else{
+          bestOptions[card]++
+        }
+      })
+    })
+    return bestOptions
+  })
+
+  const findBestCards = () => {
     let sorted = cardPairs.sort((a,b) => findNumber(a) - findNumber(b))
-    parseCombos(sorted)
+    let combos = parseCombos(sorted)
+    let bestOptions = comboChecker(combos)
+    let topCardValues = Object.values(bestOptions).sort((a,b) => b - a).slice(0,4)
+
+    let keys = topCardValues.map( v => {
+      let key = Object.keys(bestOptions).find(card => bestOptions[card] === v)
+      delete bestOptions[key]
+      return key
+    })
+    setBestCards(keys)
   }
 
+  const calculatePoints = () => {
+    
+  }
   
 
-  useEffect(calculatePoints, [cardPairs])
+  useEffect(findBestCards, [cardPairs])
 
   return(
     <div>
-      The best hand is {cardPairs} and is worth {points}"
+      The best hand is [{bestCards.join(", ")}] and is worth {calculatePoints()}
     </div>
   )
 }
