@@ -49,7 +49,21 @@ const Results = ({cardPairs}) => {
         runs.push([a])
       }
     })
-    return runs.filter(run => run.length > 2)
+    let filtered = runs.filter(run => run.length > 2)
+    let currentNum = 0
+    let uniqueVal = 0
+    filtered.forEach(a => {
+      a.forEach(n => {
+        if(currentNum != findNumber(n)){
+          currentNum = findNumber(n)
+          uniqueVal++
+        }
+      })
+      if(uniqueVal < 3){
+        filtered.splice(filtered.indexOf(a), 1)
+      }
+    })
+    return filtered
   }
 
   const adjustPoints = (num) => {
