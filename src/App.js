@@ -5,17 +5,18 @@ import Results from './Results'
 
 function App() {
 
-  let [cardPairs, setCardPairs] = useState(new Array(6))
+  let [cardPairs, setCardPairs] = useState({})
 
   const updatePairs = (cardNumber, cardPair) => {
-    let newCardPairs = [...cardPairs]
-    newCardPairs[cardNumber-1] = cardPair
-    setCardPairs(newCardPairs)
+    setCardPairs((cardPairs) => {
+     return cardPairs[cardNumber] === cardPair ? cardPairs : {...cardPairs, [cardNumber]: cardPair }
+    })
   }
 
   const renderResult = () => {
-    if(!cardPairs.includes(undefined)){
-      return <Results/>
+
+    if(Object.values(cardPairs).length === 6){
+      return <Results cardPairs={Object.values(cardPairs)}/>
     }
   }
   

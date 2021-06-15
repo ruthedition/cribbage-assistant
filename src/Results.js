@@ -6,9 +6,9 @@ const Results = ({cardPairs}) => {
   let [points, setPoints] = useState()
 
   const calculatePoints = () => {
-    console.log("hello")
+    console.log(cardPairs)
   }
-  
+
   useEffect(calculatePoints,[cardPairs])
 
   

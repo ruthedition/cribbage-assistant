@@ -1,5 +1,4 @@
 import CardInput from './CardInput'
-
 const CardForm = ({updatePairs}) => {
 
   return(

@@ -11,7 +11,7 @@ const CardInput = ({cardNumber, updatePairs}) => {
     if(cardValue && cardSuit){
       updatePairs(cardNumber,`${cardValue + cardSuit}`)
     }
-  },[cardValue,cardSuit])
+  })
 
   return(
     <div>
