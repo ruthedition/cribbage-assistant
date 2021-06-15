@@ -52,21 +52,30 @@ const Results = ({cardPairs}) => {
     return runs.filter(run => run.length > 2)
   }
 
+  const adjustPoints = (num) => {
+    return num >=10 ? 10 : num
+  }
+
   const addCards = (arr) => {
     let combo15 = [[]]
     let sum = 0
-    if(arr.reduce((acc, a) => (acc + findNumber(a)),0) > 15){
+
+    let possibleCombo = arr.reduce((acc, a) => {
+      return acc + adjustPoints(findNumber(a))
+    },0)
+
+    if(possibleCombo > 15){
       arr.forEach((a) => {
         let currentCombo = combo15[combo15.length - 1]
         if(currentCombo.length === 0){
           currentCombo.push(a)
-          sum = findNumber(a)
+          sum = adjustPoints(findNumber(a))
         }else if(sum < 15){
           currentCombo.push(a)
-          sum += findNumber(a)
+          sum += adjustPoints(findNumber(a))
         }else{
           combo15.push([a])
-          sum = findNumber(a)
+          sum = adjustPoints(findNumber(a))
         }
       })
     }
