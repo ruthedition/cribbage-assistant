@@ -7,15 +7,17 @@ const Results = ({cardPairs}) => {
 
   const findNumber = (card) => {
     if(card.length == 3){
-        return card.slice(0,2)
+        return parseInt(card.slice(0,2))
       }else{
-        return card.slice(0,1)
+        return parseInt(card.slice(0,1))
       }
   }
   
   const parseCombos = (arr) =>{
     let combos = {
-      pairs: findPairs(arr)
+      pairs: findPairs(arr),
+      runs: findRuns(arr),
+      combo15: addCards(arr)
     }
     console.log(combos.combo15)
   }
@@ -33,8 +35,42 @@ const Results = ({cardPairs}) => {
     return pairs.filter(pair => pair.length > 1)
   }
 
+  const findRuns = (arr) =>{
+    let runs = [[]]
+    arr.forEach((a) => {
+      let currentRun = runs[runs.length - 1]
+      if(currentRun.length === 0 || findNumber(a) - findNumber(currentRun[currentRun.length -1]) <= 1){
+        currentRun.push(a)
+      }else{
+        runs.push([a])
+      }
+    })
+    return runs.filter(run => run.length > 2)
+  }
+
+  const addCards = (arr) => {
+    let combo15 = [[]]
+    let sum = 0
+    if(arr.reduce((acc, a) => (acc + findNumber(a)),0) > 15){
+      
+      arr.forEach((a) => {
+        let currentCombo = combo15[combo15.length - 1]
+        if(currentCombo.length === 0){
+          currentCombo.push(a)
+          sum = findNumber(a)
+        }else if(sum < 15){
+          currentCombo.push(a)
+          sum += findNumber(a)
+        }else{
+          combo15.push([a])
+          sum = findNumber(a)
+        }
+      })
+    }
+    return combo15
+  }
+
   const calculatePoints = () => {
-    console.log(cardPairs)
     let sorted = cardPairs.sort((a,b) => { return findNumber(a) - findNumber(b)} )
     parseCombos(sorted)
   }
