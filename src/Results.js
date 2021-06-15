@@ -21,9 +21,9 @@ const Results = ({cardPairs}) => {
     let combos = {
       pairs: findPairs(arr),
       runs: findRuns(arr),
-      combo15: addCards(arr)
+      combo15: addCards(arr),
+      flush: findFlush(arr)
     }
-    console.log(combos.combo15)
   }
 
   const findPairs = (arr) =>{
@@ -56,7 +56,6 @@ const Results = ({cardPairs}) => {
     let combo15 = [[]]
     let sum = 0
     if(arr.reduce((acc, a) => (acc + findNumber(a)),0) > 15){
-      
       arr.forEach((a) => {
         let currentCombo = combo15[combo15.length - 1]
         if(currentCombo.length === 0){
@@ -74,12 +73,6 @@ const Results = ({cardPairs}) => {
     return combo15
   }
 
-  const calculatePoints = () => {
-    let sorted = cardPairs.sort((a,b) => findNumber(a) - findNumber(b))
-    findFlush(sorted)
-    parseCombos(sorted)
-  }
-
   const findFlush = (arr) => {
     let suits = {H:0, D:0, S:0, C:0}
     arr.forEach(a => suits[findSuit(a)]++)
@@ -87,6 +80,13 @@ const Results = ({cardPairs}) => {
     
     return arr.filter(a => findSuit(a) === suit)
   }
+
+  const calculatePoints = () => {
+    let sorted = cardPairs.sort((a,b) => findNumber(a) - findNumber(b))
+    parseCombos(sorted)
+  }
+
+  
 
   useEffect(calculatePoints, [cardPairs])
 
