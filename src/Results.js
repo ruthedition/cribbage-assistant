@@ -164,13 +164,52 @@ const Results = ({cardPairs}) => {
     setPoints(points) 
   }
 
+  const pointsForCombo15 = (combo) => {
+    let points = 0 
+    if(combo.combo15.length != 0){
+
+      let nums = {}
+      
+      combo.combo15.forEach(card => {
+        let n = findNumber(card)
+        !nums[n] ? nums[n] = 1 : nums[n]++
+      })
+
+      Object.keys(nums).forEach(num => {
+        let total = parseInt(num)
+        let diff = 15 - total
+        
+        if(nums[diff] == 2 && nums[num] == 2){
+          return points += 4
+        }
+
+        while(diff > 0){
+          if(num[diff] && diff != num ){
+            num[diff]--
+            total = total + diff
+            diff = 15 - total
+            if(total === 15){
+              if(nums[num] === 2){
+                points += 4
+              }else{
+                points += 2
+              }
+            }
+          }else{
+            diff--
+          }
+        }
+      })
+      setPoints(points)
+    }
+  }
+
   const calculatePoints = () => {
     let parsed = parseCombos(bestCards)
     pointsForFlush(parsed)
     pointsForPairs(parsed)
-
+    pointsForCombo15(parsed)
   }
-  
 
   useEffect(findBestCards, [cardPairs])
 
