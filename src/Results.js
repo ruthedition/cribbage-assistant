@@ -2,8 +2,33 @@ import { useEffect, useState } from "react"
 
 const Results = ({cardPairs}) => {
 
-  let [bestCards, setBestCards] = useState()
-  let [points, setPoints] = useState()
+  let [bestCards, setBestCards] = useState([])
+  let [points, setPoints] = useState(0)
+
+  const calculatePoints = (keys) => {
+    let parsed = parseCombos(keys)
+    setPoints( pointsForFlush(parsed) + pointsForPairs(parsed) + pointsForCombo15(parsed) )
+    
+  }
+
+  const findBestCards = () => {
+    let sorted = cardPairs.sort((a,b) => findNumber(a) - findNumber(b))
+    let combos = parseCombos(sorted)
+    let bestOptions = comboChecker(combos)
+    let topCardValues = Object.values(bestOptions).sort((a,b) => b - a).slice(0,4)
+
+    let keys = topCardValues.map( v => {
+      let key = Object.keys(bestOptions).find(card => bestOptions[card] === v)
+      delete bestOptions[key]
+      return key
+    })
+
+    setBestCards(keys)
+    calculatePoints(keys)
+
+  }
+
+  useEffect(findBestCards, [cardPairs])
 
   const findSuit = (card) => {
     return card.split("").pop()
@@ -16,16 +41,6 @@ const Results = ({cardPairs}) => {
         return parseInt(card.slice(0,1))
       }
   }
-  
-  const parseCombos = (arr) =>{
-    return {
-      pairs: findPairs(arr).flat(),
-      runs: findRuns(arr).flat(),
-      combo15: addCards(arr).flat(),
-      flush: findFlush(arr)
-    }
-  }
-
   const findPairs = (arr) =>{
     let pairs = [[]]
     arr.forEach((a) => {
@@ -37,6 +52,15 @@ const Results = ({cardPairs}) => {
       }
     })
     return pairs.filter(pair => pair.length > 1)
+  }
+
+  const parseCombos = (arr) =>{
+      return {
+      pairs: findPairs(arr).flat(),
+      runs: findRuns(arr).flat(),
+      combo15: addCards(arr).flat(),
+      flush: findFlush(arr)
+    }
   }
 
   const findRuns = (arr) =>{
@@ -119,27 +143,12 @@ const Results = ({cardPairs}) => {
     return bestOptions
   })
 
-  const findBestCards = () => {
-    let sorted = cardPairs.sort((a,b) => findNumber(a) - findNumber(b))
-    let combos = parseCombos(sorted)
-    let bestOptions = comboChecker(combos)
-    let topCardValues = Object.values(bestOptions).sort((a,b) => b - a).slice(0,4)
-
-    let keys = topCardValues.map( v => {
-      let key = Object.keys(bestOptions).find(card => bestOptions[card] === v)
-      delete bestOptions[key]
-      return key
-    })
-    setBestCards(keys)
-    calculatePoints()
-  }
-
   const pointsForFlush = (combo) => {
     let points = 0
     if(combo.flush.length !== 0){
       points +=4
     }
-    setPoints(points)
+    return points
   }
 
   const pointsForPairs = (combo) => {
@@ -161,12 +170,12 @@ const Results = ({cardPairs}) => {
         }
       })
     }
-    setPoints(points) 
+    return points
   }
 
   const pointsForCombo15 = (combo) => {
     let points = 0 
-    if(combo.combo15.length != 0){
+    if(combo.combo15.length !== 0){
 
       let nums = {}
       
@@ -179,12 +188,12 @@ const Results = ({cardPairs}) => {
         let total = parseInt(num)
         let diff = 15 - total
         
-        if(nums[diff] == 2 && nums[num] == 2){
+        if(nums[diff] === 2 && nums[num] === 2){
           return points += 4
         }
 
         while(diff > 0){
-          if(num[diff] && diff != num ){
+          if(num[diff] && diff !== num ){
             num[diff]--
             total = total + diff
             diff = 15 - total
@@ -200,18 +209,13 @@ const Results = ({cardPairs}) => {
           }
         }
       })
-      setPoints(points)
     }
+    return points
   }
 
-  const calculatePoints = () => {
-    let parsed = parseCombos(bestCards)
-    pointsForFlush(parsed)
-    pointsForPairs(parsed)
-    pointsForCombo15(parsed)
-  }
+ 
 
-  useEffect(findBestCards, [cardPairs])
+ 
 
   return(
     <div>

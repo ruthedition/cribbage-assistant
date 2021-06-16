@@ -15,7 +15,6 @@ function App() {
 
   const renderResult = () => {
     if(Object.values(cardPairs).length === 6){
-      console.log(cardPairs)
       return <Results cardPairs={Object.values(cardPairs)}/>
     }
   }
