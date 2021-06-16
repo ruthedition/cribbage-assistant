@@ -241,8 +241,11 @@ const Results = ({ cardPairs }) => {
   }
 
   return (
-    <div>
+    <div style={{ paddingTop:"5rem", paddingLeft:"30rem", paddingRight:"10rem"}} >
+
+      <h3>
       The best hand is [{bestCards.join(", ")}] and is worth {points}.
+      </h3> 
     </div>
   )
 }
