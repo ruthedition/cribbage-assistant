@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 const Results = ({cardPairs}) => {
 
   let [bestCards, setBestCards] = useState()
+  let [points, setPoints] = useState()
 
   const findSuit = (card) => {
     return card.split("").pop()
@@ -129,11 +130,22 @@ const Results = ({cardPairs}) => {
       delete bestOptions[key]
       return key
     })
+    
     setBestCards(keys)
   }
 
+  const pointsForFlush = (combo) => {
+    let points = 0
+    if(combo.flush.length != 0){
+      points +=4
+    }
+    setPoints(points)
+  }
+
+
   const calculatePoints = () => {
-    
+    let parsed = parseCombos(bestCards)
+    pointsForFlush(parsed)
   }
   
 
@@ -141,7 +153,7 @@ const Results = ({cardPairs}) => {
 
   return(
     <div>
-      The best hand is [{bestCards.join(", ")}] and is worth {calculatePoints()}
+      The best hand is [{bestCards.join(", ")}] and is worth {points}.
     </div>
   )
 }
