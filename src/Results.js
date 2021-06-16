@@ -130,22 +130,45 @@ const Results = ({cardPairs}) => {
       delete bestOptions[key]
       return key
     })
-    
     setBestCards(keys)
+    calculatePoints()
   }
 
   const pointsForFlush = (combo) => {
     let points = 0
-    if(combo.flush.length != 0){
+    if(combo.flush.length !== 0){
       points +=4
     }
     setPoints(points)
   }
 
+  const pointsForPairs = (combo) => {
+    let points = 0
+    if(combo.pairs.length !== 0){
+      let nums = {}
+      combo.pairs.forEach(card => {
+        let n = findNumber(card)
+        !nums[n] ? nums[n] = 1 : nums[n]++
+      })
+    
+      Object.values(nums).forEach(num => {
+        if(num === 2){
+          points +=2
+        }else if(num === 3){
+          points += 6
+        }else{
+          points += 12
+        }
+      })
+    }
+    setPoints(points) 
+  }
 
   const calculatePoints = () => {
     let parsed = parseCombos(bestCards)
     pointsForFlush(parsed)
+    pointsForPairs(parsed)
+
   }
   
 
