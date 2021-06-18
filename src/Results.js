@@ -8,7 +8,7 @@ const Results = ({ cardPairs }) => {
 
   useEffect(() => {
     const getBestCards = () => {
-      fetch('http://localhost:4567/besthand', {
+      fetch('https://cribbage-api.herokuapp.com/besthand', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
