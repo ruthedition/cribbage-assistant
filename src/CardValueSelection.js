@@ -1,6 +1,6 @@
 const CardValueSelection = ({handleChange, selected}) => {
   return(
-    <div>
+    <div className="selection">
       <select value={selected} onChange={(e) => handleChange(e.target.value)}>
         <option value="0" disabled>Select Card Value</option>
         <option value="1">Ace</option>

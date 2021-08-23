@@ -1,7 +1,7 @@
 const SuitOptions = ({cardNumber, handleChange}) =>{
 
   return(
-    <div>
+    <div className="selection">
         <div className="radio" onChange={(e)=> handleChange(e.target.value)}>
           <label className="club">
             <input type="radio" name={`suit-${cardNumber}`} value="C"/>

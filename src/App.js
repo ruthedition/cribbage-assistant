@@ -22,7 +22,7 @@ function App() {
   return (
     <div>
       <h1 className="title">
-        Welcome to the Cribbage Assistant
+        Cribbage Assistant
       </h1>
       <CardForm updatePairs={updatePairs}/>
       {renderResult()}

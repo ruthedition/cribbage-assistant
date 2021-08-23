@@ -10,21 +10,64 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+  font-size: large;
+}
+
+h1 {
+  margin: 0ch;
+  padding: 1em;
 }
 
 .title {
   text-align: center;
+  font-family: cursive;
+  font-size: 35px;
+  background: darkred;
+  color: white;
 }
 
+div #allCards {
+  display: inline-flex;
+  margin-top: 1em;
+}
+
+div #card {
+  border: solid;
+  border-width: .2px;
+  padding-bottom: 2em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 2em;
+  margin: .5em;
+}
+div span#cardTitle {
+  font-family: cursive;
+  font-weight: bold;
+  font-size: 30px;
+  padding-left: 1.4em;
+  text-decoration: underline;
+}
+
+div .selection {
+  text-align: center;
+  padding-bottom: .5em;
+  
+}
+
+.radio{
+  display: flex;
+}
 .heart {
-  color: red;
+  color: darkred;
 }
 
 .diamond {
-  color: red;
+  color: darkred;
 }
 
 .formInput {
   display: flex;
+  flex-flow: column;
   padding: 5px;
+  font-size: 30px;
 }

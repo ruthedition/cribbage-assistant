@@ -14,10 +14,16 @@ const CardInput = ({cardNumber, updatePairs}) => {
   })
 
   return(
-    <div>
-      Card {cardNumber}:
+    <div id="card">
+      <span id="cardTitle"> Card {cardNumber} </span>
        <div className="formInput" >
-        <CardValueSelection handleChange={setCardValue} selected={cardValue}/> <SuitOptions cardNumber={cardNumber} handleChange={setCardSuit}/>
+          
+            <CardValueSelection handleChange={setCardValue} 
+          selected={cardValue}/>
+    
+          <SuitOptions cardNumber={cardNumber} 
+          handleChange={setCardSuit}
+        />
       </div>
     </div>
   )
